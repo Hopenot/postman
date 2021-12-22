@@ -1,0 +1,432 @@
+{
+	"info": {
+		"_postman_id": "e3ab7ccb-6637-4bdb-919e-4d8b62d8471c",
+		"name": "HW_2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "First_request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d4ef1b75-fe90-453d-b649-679a6fd76bda",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"This is the first responce from server!\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/first",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"first"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Second_request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d256fd7-b55d-4726-8f4f-8aab54ff27bf",
+						"exec": [
+							"pm.test (\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Спарсить response body в json.\r",
+							"var responseData = pm.response.json();\r",
+							"\r",
+							"//Проверить, что name в ответе равно name s request (name вбить руками.)\r",
+							"pm.test (\"request name = response name\", function() {\r",
+							"    pm.expect(responseData.name).to.eql(\"Dasha\")\r",
+							"})\r",
+							"//Проверить, что age в ответе равно age s request (age вбить руками.)\r",
+							"pm.test (\"request age = response age\", function(){\r",
+							"    pm.expect(responseData.age).to.eql(\"32\")\r",
+							"})\r",
+							"console.log(responseData.age)\r",
+							"//Проверить, что salary в ответе равно salary s request (salary вбить руками.)\r",
+							"pm.test (\"request salary = response salary\", function(){\r",
+							"    pm.expect(responseData.salary).to.be.eql(1500)\r",
+							"})\r",
+							"console.log(responseData.salary)\r",
+							"//Спарсить request.\r",
+							"var requestParams = request.data\r",
+							"console.log(\"!!!!!!!!!!!!!!!!!!!!!!!!!!+\",requestParams)\r",
+							"\r",
+							"//Проверить, что name в ответе равно name s request (name забрать из request.)\r",
+							"pm.test (\"name = name response\", function (){\r",
+							"    pm.expect(requestParams.name).to.eql(responseData.name)\r",
+							"})\r",
+							"//Проверить, что age в ответе равно age s request (age забрать из request.)\r",
+							"pm.test (\"age = age response\", function (){\r",
+							"    pm.expect(requestParams.age).to.eql(responseData.age)\r",
+							"})\r",
+							"//Проверить, что salary в ответе равно salary s request (salary забрать из request.)\r",
+							"pm.test (\"salary = salary response\", function (){\r",
+							"    pm.expect(+requestParams.salary).to.eql(+responseData.salary)\r",
+							"});\r",
+							"//Вывести в консоль параметр family из response.\r",
+							"console.log(responseData.family)\r",
+							"\r",
+							"//Проверить что u_salary_1_5_year в ответе равно salary*4 (salary забрать из request)\r",
+							"pm.test (\"u_salary_1_5_year = salary * 4\", function (){\r",
+							"    pm.expect(responseData.family.u_salary_1_5_year).to.eql(+requestParams.salary*4);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Dasha",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "32",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "1500",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/user_info_3",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user_info_3"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Dasha",
+							"disabled": true
+						},
+						{
+							"key": "salary",
+							"value": "1500",
+							"disabled": true
+						},
+						{
+							"key": "age",
+							"value": "32",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Third_request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Отправить запрос.\r",
+							"// Статус код 200\r",
+							"pm.test (\"Status code 200\", function (){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// Спарсить response body в json.\r",
+							"var responseData = pm.response.json();\r",
+							"console.log(responseData)\r",
+							"// Спарсить request.\r",
+							"var requestParams = pm.request.url.query.toObject();\r",
+							"console.log(requestParams)\r",
+							"// Проверить, что name в ответе равно name s request (name забрать из request.)\r",
+							"pm.test (\"name = name from request\", function(){\r",
+							"    pm.expect(responseData.name).to.eql(requestParams.name)\r",
+							"});\r",
+							"// Проверить, что age в ответе равно age s request (age забрать из request.)\r",
+							"pm.test (\"age = age from response\", function (){\r",
+							"    pm.expect(responseData.age).to.eql(requestParams.age)\r",
+							"});\r",
+							"// Проверить, что salary в ответе равно salary s request (salary забрать из request.)\r",
+							"pm.test (\"salary = request salary\", function (){\r",
+							"    pm.expect (responseData.salary).to.eql(+requestParams.salary)\r",
+							"})\r",
+							"// Вывести в консоль параметр family из response.\r",
+							"console.log(responseData.family)\r",
+							"var family = responseData.family\r",
+							"// Проверить, что у параметра dog есть параметры name.\r",
+							"pm.test(\"dog has a name\", function(){\r",
+							"    pm.expect(family.pets.dog).to.have.property('name');\r",
+							"})\r",
+							"// Проверить, что у параметра dog есть параметры age.\r",
+							"pm.test(\"dog has an age\", function(){\r",
+							"    pm.expect(family.pets.dog).to.have.property('age');\r",
+							"})\r",
+							"// Проверить, что параметр name имеет значение Luky.\r",
+							"pm.test(\"name of the dog is\", function(){\r",
+							"    pm.expect(family.pets.dog.name).to.eql(\"Luky\")\r",
+							"})\r",
+							"// Проверить, что параметр age имеет значение 4.\r",
+							"pm.test(\"age of the dog is\", function(){\r",
+							"    pm.expect(family.pets.dog.age).to.eql(4)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"id": "789ae51d-b577-4774-8b2f-e2670ad7f35d"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/object_info_3?name=Dasha&age=32&salary=1500",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"object_info_3"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Dasha"
+						},
+						{
+							"key": "age",
+							"value": "32"
+						},
+						{
+							"key": "salary",
+							"value": "1500"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forth_request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7ac12369-d46e-46af-a70f-e31efda93700",
+						"exec": [
+							"// Отправить запрос.\r",
+							"// Статус код 200\r",
+							"pm.test (\"Status code 200\", function (){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// Спарсить response body в json.\r",
+							"var responseData = pm.response.json()\r",
+							"// Спарсить request.\r",
+							"var requestParams = pm.request.url.query.toObject();\r",
+							"// Проверить, что name в ответе равно name s request (name забрать из request.)\r",
+							"pm.test (\"name = name from request\", function(){\r",
+							"    pm.expect(responseData.name).to.eql(requestParams.name)\r",
+							"});\r",
+							"// Проверить, что age в ответе равно age из request (age забрать из request.)\r",
+							"pm.test (\"age = age from response\", function (){\r",
+							"    pm.expect(responseData.age).to.eql(+requestParams.age)\r",
+							"});\r",
+							"// Вывести в консоль параметр salary из request.\r",
+							"console.log(responseData.salary)\r",
+							"// Вывести в консоль параметр salary из response.\r",
+							"console.log(requestParams.salary)\r",
+							"// Вывести в консоль 0-й элемент параметра salary из response.\r",
+							"console.log(responseData.salary[0])\r",
+							"// Вывести в консоль 1-й элемент параметра salary параметр salary из response.\r",
+							"console.log(responseData.salary[1])\r",
+							"// Вывести в консоль 2-й элемент параметра salary параметр salary из response.\r",
+							"console.log(responseData.salary[2])\r",
+							"// Проверить, что 0-й элемент параметра salary равен salary из request (salary забрать из request.)\r",
+							"pm.test (\"first salary item = first salary item from response\", function (){\r",
+							"    pm.expect(responseData.salary[0]).to.eql(+requestParams.salary)\r",
+							"})\r",
+							"// Проверить, что 1-й элемент параметра salary равен salary*2 из request (salary забрать из request.)\r",
+							"pm.test (\"second salary item = second salary item from response\", function (){\r",
+							"    pm.expect(+responseData.salary[1]).to.eql(+requestParams.salary*2)\r",
+							"})\r",
+							"// Проверить, что 2-й элемент параметра salary равен salary*3 из request (salary забрать из request.)\r",
+							"pm.test (\"third salary item = third salary item from response\", function (){\r",
+							"    pm.expect(+responseData.salary[2]).to.eql(+requestParams.salary*3)\r",
+							"})\r",
+							"console.log(+requestParams.salary*3)\r",
+							"// Создать в окружении переменную name\r",
+							"pm.environment.set(\"name\",\"Dasha\")\r",
+							"// Создать в окружении переменную age\r",
+							"pm.environment.set(\"age\",\"32\")\r",
+							"// Создать в окружении переменную salary\r",
+							"pm.environment.set(\"salary\",\"1500\")\r",
+							"// Передать в окружение переменную name\r",
+							"\r",
+							"// Передать в окружение переменную age\r",
+							"\r",
+							"// Передать в окружение переменную salary\r",
+							"\r",
+							"// Написать цикл который выведет в консоль по порядку элементы списка из параметра salary.\r",
+							"console.log(\"CIKL\", responseData.salary)\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/object_info_4?name=Dasha&age=32&salary=1500",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"object_info_4"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Dasha"
+						},
+						{
+							"key": "age",
+							"value": "32"
+						},
+						{
+							"key": "salary",
+							"value": "1500"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fifth_request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5361bff0-213e-42a3-b93c-02ba1b52a33a",
+						"exec": [
+							"pm.test (\"Status code 200\" , function (){",
+							"    pm.response.to.have.status(200)",
+							"})",
+							"var responseData = pm.response.json()",
+							"var requestParams = request.data",
+							"",
+							"console.log(responseData)",
+							"",
+							"pm.test (\"response have start_qa_salary\", function(){",
+							"    pm.expect(responseData).to.have.property('start_qa_salary')",
+							"})",
+							"",
+							"pm.test (\"response have qa_salary_after_6_months\", function(){",
+							"    pm.expect(responseData).to.have.property('qa_salary_after_6_months')",
+							"})",
+							"",
+							"pm.test (\"response have qa_salary_after_12_months\", function(){",
+							"    pm.expect(responseData).to.have.property('qa_salary_after_12_months')",
+							"})",
+							"",
+							"pm.test (\"response have qa_salary_after_1.5_year\", function(){",
+							"    pm.expect(responseData).to.have.property('qa_salary_after_1.5_year')",
+							"})",
+							"",
+							"pm.test (\"response have qa_salary_after_3.5_years\", function(){",
+							"    pm.expect(responseData).to.have.property('qa_salary_after_3.5_years')",
+							"})",
+							"",
+							"pm.test (\"response have parameter person\", function(){",
+							"    pm.expect(responseData).to.have.property('person')",
+							"})",
+							"",
+							"pm.test (\"equals\",function(){",
+							"    pm.expect(responseData.start_qa_salary).to.eql(+requestParams.salary)",
+							"    pm.expect(responseData.qa_salary_after_6_months).to.eql(+requestParams.salary*2)",
+							"    pm.expect(responseData.qa_salary_after_12_months).to.eql(+requestParams.salary*2.7)",
+							"    pm.expect(responseData[\"qa_salary_after_1.5_year\"]).to.eql(+requestParams.salary*3.3)",
+							"    pm.expect(responseData[\"qa_salary_after_3.5_years\"]).to.eql(+requestParams.salary*3.8)",
+							"    pm.expect(responseData.person.u_name[1]).to.eql(+requestParams.salary)",
+							"    pm.expect(responseData.person.u_age).to.eql(+requestParams.age)",
+							"    pm.expect(responseData.person.u_salary_5_years).to.eql(+requestParams.salary*4.2)",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/user_info_2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user_info_2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
